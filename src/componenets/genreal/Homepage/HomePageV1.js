@@ -93,8 +93,8 @@ const HomePageV1 = () => {
           {/* <img src={pic1} alt="bgr" /> */}
 
           <ImageListV1 />
-          {/* <CardSection /> */}
-          {/* <ImageListV2 /> */}
+          <CardSection />
+          <ImageListV2 />
           {/* <Footer /> */}
         </Box>
 
@@ -103,7 +103,7 @@ const HomePageV1 = () => {
         <Box
           style={{
             backgroundImage: `linear-gradient(to bottom, #2948ff45, #f2fcfe1a), 
-          url(${island})`,
+            url(${island})`,
             backgroundSize: 'cover',
             backgroundRepeat: 'no-repeat',
             height: '300px',

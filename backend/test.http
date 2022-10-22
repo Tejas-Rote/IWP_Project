@@ -1,0 +1,23 @@
+POST http://localhost:3000/app/register
+Content-Type: application/json 
+
+{
+    "fullName":"tejas",
+    "email" :"demo@mail.com",
+    "password":"demo"
+}
+
+
+
+# POST http://localhost:4000/app/search
+# Content-Type: application/json 
+
+# {
+#     "startDate":"Tue Oct 04 2022 11:35:38 GMT+0530 (India Standard Time)",
+#     "endDate":"Tue Oct 04 2022 11:35:38 GMT+0530 (India Standard Time)",
+#     "destination": "Aukland",
+#     "adults": "1",
+#     "children": "1",
+#     "room": "1"
+# }
+

@@ -13,11 +13,23 @@ import ImageCard from '../Cards/ImageCard';
 
 
 
-const array = ["1", "2", "3", "4", "5", "6", "7", "8", "9"];
+const array = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16"];
+
+
+const array2 = ["Abu Dhabi", "Aukland", "Bali ", "Bangalore ", "Beijing ", "Cape Town ", "Cardiff", "Chennai ", "Colombo ", "Delhi ", "Dhaka", "Dubai", "Hyderabad", "Lisbon", "Liverpool", "London ", "Los Angeles ", "Liverpool", "Madrid ", "Maldives", "Manchester ", "Melbourne", "Mumbai", "New York ", "Ontario ", "Paris", "Rio De Janerio ", "Singapore", "Sydney", "Tel Aviv", "Tokyo "];
+
+
+const randomElement = array[Math.floor(Math.random() * array2.length)];
+// console.log(randomElement);
+// console.log(randomElement, array2[randomElement]);
+
+function randomN() {
+    return Math.floor((Math.random() * 1000) + 1);
+}
 
 const images = array.map(image => {
-    return <ImageCard key={image} title={"Bombay"} body={"1,432 Locations"}
-    //  img={require(`../../util/images/${image}.jpg`)}
+    return <ImageCard key={image} title={array2[image]} body={randomN() + " Locations"}
+        img={require(`../../util/images/${image}.jpg`)}
     />
 })
 

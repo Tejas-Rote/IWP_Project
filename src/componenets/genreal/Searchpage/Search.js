@@ -39,6 +39,8 @@ import CustomTextField from '../../Searchbar/CustomTextField';
 import CustomTabs from '../../Searchbar/CustomTab';
 // import ImageListV2 from '../../Gallery/ImageListV2';
 
+
+
 const myStyle = {
     backgroundImage: `url(${island})`,
     height: '100vh',
@@ -47,6 +49,10 @@ const myStyle = {
     backgroundSize: 'cover',
     backgroundRepeat: 'no-repeat',
 };
+
+
+const array2 = ["Abu Dhabi", "Aukland", "Bali ", "Bangalore ", "Beijing ", "Cape Town ", "Cardiff", "Chennai ", "Colombo ", "Delhi ", "Dhaka", "Dubai", "Hyderabad", "Lisbon", "Liverpool", "London ", "Los Angeles ", "Liverpool", "Madrid ", "Maldives", "Manchester ", "Melbourne", "Mumbai", "New York ", "Ontario ", "Paris", "Rio De Janerio ", "Singapore", "Sydney", "Tel Aviv", "Tokyo "];
+
 
 
 const Search = () => {
@@ -74,12 +80,50 @@ const Search = () => {
     const open2 = Boolean(anchorEl2);
     const id2 = open2 ? 'simple-popper' : undefined;
 
+    const [options, setoptions] = useState({
+        adult: 1,
+        children: 0,
+        room: 1
+    })
+
+
+
+
+
+    const [date, setDate] = useState([
+        {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: "selection"
+        }
+    ]);
+
+
+    const [destination, setDestination] = useState("");
+
     const location = useLocation();
     console.log(location.state);
 
-    const [options, setoptions] = useState(location.state.options)
-    const [date, setDate] = useState(location.state.date)
-    const [destination, setDestination] = useState(location.state.destination)
+
+    useEffect(() => {
+        if (location.state != null) {
+            // console.log("NO");
+            // setisLoggedIn(true);
+            setoptions(location.state.options);
+            setDestination(location.state.destination);
+            setDate(location.state.date);
+
+        }
+
+        // return () => {
+        //   second
+        // }
+    }, [])
+
+
+    // const [options, setoptions] = useState(location.state.options)
+    // const [date, setDate] = useState(location.state.date)
+    // const [destination, setDestination] = useState(location.state.destination)
 
     const handleOption = (name, operation) => {
 
@@ -91,9 +135,55 @@ const Search = () => {
 
     }
 
-    const handleChange = (event) => {
+    const [query, setquery] = useState("");
+    const handleQuery = (e) => {
+        setquery(e.target.value);
+    }
+
+
+    const handleDestination = (event) => {
         setDestination(event.target.value);
+        setquery(destination);
     };
+
+    console.log(query);
+
+    // useEffect(() => {
+
+
+    // //   return () => {
+    // //     second
+    // //   }
+    // }, [query])
+
+
+    // const [form, setState] = useState({
+    //     destination: '',
+    //     price: '',
+    //     password: ''
+    // });
+
+
+
+    // const printValues = e => {
+    //     e.preventDefault();
+    //     console.log(form.fullName, form.email, form.password);
+    //     const registerd = {
+    //         fullName: form.fullName,
+    //         email: form.email,
+    //         password: form.password
+    //     }
+    // };
+
+
+    // const updateField = e => {
+    //     setState({
+    //         ...form,
+    //         [e.target.name]: e.target.value
+    //     });
+    // };
+
+
 
 
     return (
@@ -121,20 +211,32 @@ const Search = () => {
                         padding: 0,
                         height: '250px',
                         width: '100%',
+                        alignItems: 'center',
                         // alignItems: 'center',
                         // justifyContent: 'center'
                     }} >
                     <CustomNavbar />
                     <Box sx={{
                         // display: 'flex',
-                        width: '100%',
+                        // width: '100px',
                         // marginLeft: 'auto',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
                         // height: '100vh',
                     }}>
-                        <CustomTabs />
+                        {/* <CustomTabs /> */}
+
+
+                        <TextField variant="standard" id="margin-normal" margin="normal" sx={{
+                            width: "1000px", borderRadius: '5px'
+                            // backgroundColor: 
+                        }} inputProps={{ style: { color: "black", backgroundColor: 'White', padding: '10px', borderRadius: '5px' } }} onChange={handleQuery}
+                            placeholder="Enter Destination" value={destination} />
+
+
+
+
 
                     </Box>
                     {/* <Header /> */}
@@ -168,13 +270,14 @@ const Search = () => {
                         display: 'flex',
                         flexDirection: 'column',
                         width: '350px',
-                        paddingBottom: '1em',
+                        // paddingBottom: '1em',
                         borderRadius: '10px',
                         alignItems: 'center',
                         justifyContent: 'center',
                         // padding: '1em',
                         marginTop: '1em',
-                        marginLeft: '1em'
+                        marginLeft: '1em',
+                        padding: 2
 
                         // boxShadow: '10px 10px 11px - 4px #000000a6'
                     }}
@@ -182,7 +285,7 @@ const Search = () => {
 
                     >
 
-                        <CustomTextField sx={{
+                        {/* <CustomTextField sx={{
                             backgroundColor: theme.palette.common.white,
                             margin: 2,
                             borderRadius: 0,
@@ -205,13 +308,26 @@ const Search = () => {
                             value={destination}
 
 
-                        />
+                        /> */}
+
+                        <TextField variant="standard" sx={{
+                            maxWidth: '300px    ',
+                            width: "100%", borderRadius: '0em',
+                            marginBottom: '10px',
+                            marginTop: '10px'
+
+                            // backgroundColor: 
+                        }} inputProps={{ style: { color: "black", backgroundColor: 'White', padding: '10px', borderRadius: '0px' } }}
+
+                            // onChange={(e => setquery(e.target.value))}
+
+                            placeholder="Enter Destination" value={destination} onChange={handleDestination} />
 
 
                         <Box sx={{
                             display: 'flex',
                             flexDirection: "column",
-                            witdth: '100%',
+                            width: '100%',
                             alignItems: 'center',
                             justifyContent: 'space-around'
                         }}    >
@@ -440,12 +556,35 @@ const Search = () => {
 
 
 
-                            <Typography variant="h6" align='left' gutterBottom style={{ color: theme.palette.common.white, }} >
+                            {/* <Typography variant="h6" align='left' gutterBottom style={{ color: theme.palette.common.white, }} >
                                 Options
-                            </Typography>
+                            </Typography> */}
 
-                            <CustomTextField placeholder='Maximum Price' />
-                            <CustomTextField placeholder='Mminimum Price' />
+                            {/* <CustomTextField placeholder='Maximum Price' /> */}
+                            {/* <CustomTextField placeholder='Mminimum Price' /> */}
+
+                            <TextField variant="standard" id="margin-normal" margin="normal" sx={{
+                                maxWidth: '300px',
+                                width: "100%", borderRadius: '0em',
+                                // backgroundColor: 
+                            }} inputProps={{ style: { color: "black", backgroundColor: 'White', padding: '10px', borderRadius: '0px' } }}
+
+                                // onChange={(e => setquery(e.target.value))}
+
+                                placeholder="Maximum Price" />
+
+                            <TextField variant="standard" id="margin-dense" margin="dense" sx={{
+                                maxWidth: '300px',
+                                width: "100%", borderRadius: '0em',
+                                // backgroundColor: 
+                            }} inputProps={{ style: { color: "black", backgroundColor: 'White', padding: '10px', borderRadius: '0px' } }}
+
+                                // onChange={(e => setquery(e.target.value))}
+
+                                placeholder="Minimum Price" />
+
+
+
 
                             <Button
                                 size="small"
@@ -479,7 +618,9 @@ const Search = () => {
 
                     {/* <ImageListV2 /> */}
 
-                    <CardSection />
+                    <CardSection query={query} />
+
+
 
                     {/* <Card
                         sx={{

@@ -1,19 +1,20 @@
-import { Box, Button, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
-import React from 'react'
+import { Alert, AlertTitle, Box, Button, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
+import React, { useState } from 'react'
 import GalleryCarousel from '../../Gallery/GalleryCarousel';
 import CustomTextField from '../../Searchbar/CustomTextField';
 import island from '../../../util/images/back2.jpg'
 import { useNavigate } from 'react-router-dom';
-
-
+import theme from '../../../util/Themes/theme';
+import axios from 'axios';
 
 
 const Register = () => {
     const theme = useTheme();
 
+    const [success, setsuccess] = useState(false);
+    const [fail, setfail] = useState(false);
 
-    const navigate = useNavigate
-        ();
+    const navigate = useNavigate();
     const handleRegister = () => {
         navigate("/register");
     }
@@ -21,6 +22,69 @@ const Register = () => {
     const handleLogin = () => {
         navigate("/login");
     }
+
+    // const [name, setName] = React.useState('Enter Full Name ');
+    // const handleNameChange = (event) => {
+    //     setName(event.target.value);
+    //     console.log(name);
+    // };
+
+    // const [email, setEmail] = React.useState('Enter Email Address ');
+    // const handleEmailChange = (event) => {
+    //     setEmail(event.target.value);
+    //     console.log(email);
+    // };
+
+    // const [password, setPassword] = React.useState('Enter Password ');
+    // const handlePasswordChange = (event) => {
+    //     setPassword(event.target.value);
+    //     console.log(password);
+    // };
+
+
+
+    const [form, setState] = useState({
+        fullName: '',
+        email: '',
+        password: ''
+    });
+
+    const printValues = e => {
+        e.preventDefault();
+        var nameRegex = /^[a-zA-Z\-]+$/;
+        var email = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
+        // console.log(form.fullName, form.email, form.password);
+        console.log(nameRegex.test(form.fullName) || email.test(form.email));
+        if (nameRegex.test(form.fullName) == false || email.test(form.email) == false) {
+            setsuccess(false);
+            setfail(true)
+        }
+
+        const registerd = {
+            fullName: form.fullName,
+            email: form.email,
+            password: form.password
+        }
+        console.log(registerd);
+        axios.post('http://localhost:4000/app/register', registerd)
+            .then(response => console.log(response.data));
+
+        navigate("/login");
+    };
+
+
+    const updateField = e => {
+        setState({
+            ...form,
+            [e.target.name]: e.target.value
+        });
+    };
+
+
+
+
+
 
 
     return (
@@ -71,6 +135,8 @@ const Register = () => {
                 }}
             >
                 <Box
+                    component="form"
+                    autoComplete="off"
                     sx={{
                         display: 'flex',
                         flexDirection: 'row',
@@ -91,8 +157,11 @@ const Register = () => {
                     }}
                 >
                     {/* Hello */}
-                    <Stack spacing={2}>
-                        <Box>
+                    <Stack spacing={2} sx={{
+                        width: '30%'
+                    }}>
+
+                        {/* <Box>
                             <CustomTextField placeholder="Name * " />
 
                         </Box>
@@ -111,7 +180,16 @@ const Register = () => {
                             <CustomTextField placeholder="password * " />
 
 
-                        </Box>
+                        </Box> */}
+                        <TextField fullWidth required variant="filled" placeholder="Name * " value={form.fullName} name="fullName" onChange={updateField} />
+
+                        <TextField required variant="filled" placeholder="Email * " value={form.email} name="email" type="email" onChange={updateField} />
+
+                        <TextField required variant="filled" placeholder="password * " value={form.password} name="password" type="password" onChange={updateField} />
+
+
+
+
 
                         <Box sx={{
                             // bgcolor: 'red',
@@ -133,6 +211,7 @@ const Register = () => {
                                     padding: 2.2,
 
                                 }}
+                                onClick={printValues}
                             // startIcon={<SearchIcon />}
                             // onClick={handleSearch}
 
@@ -141,6 +220,34 @@ const Register = () => {
                             </Button>
 
                         </Box>
+                        {success && (
+                            <Box sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Alert severity="success" sx={{
+                                    marginTop: '20px',
+                                    marginBottom: '20px'
+
+                                }}>
+                                    <AlertTitle>Success</AlertTitle>
+                                    <strong> Registration successful!</strong>
+                                </Alert>
+                            </Box>
+
+                        )}
+
+                        {fail && (
+                            <Alert severity="error" sx={{
+                                height: '80px',
+                                width: '400px'
+                            }}>
+                                <AlertTitle>Error</AlertTitle>
+                                <strong> Registration failed!</strong>
+                            </Alert>
+                        )}
 
 
                         <Box sx={{

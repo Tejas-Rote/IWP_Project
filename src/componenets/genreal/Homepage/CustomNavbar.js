@@ -11,10 +11,14 @@
 import * as React from 'react';
 import { AppBar, Box, Toolbar, IconButton, Typography, Menu, Container, Avatar, Button, Tooltip, MenuItem, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function CustomNavbar() {
 
+  const [isLoggedIn, setisLoggedIn] = useState(false);
+  const [Name, setName] = useState("Name");
 
   const navigate = useNavigate();
   const handleRegister = () => {
@@ -24,6 +28,31 @@ export default function CustomNavbar() {
   const handleLogin = () => {
     navigate("/login");
   }
+  const handleLogout = () => {
+    // setName("EYS");
+    setisLoggedIn(false);
+  }
+
+
+
+  const location = useLocation();
+  console.log(location);
+  useEffect(() => {
+    if (location.state != null) {
+      // console.log("NO");
+      setisLoggedIn(true);
+      setName(location.state.fullName);
+    }
+
+    // return () => {
+    //   second
+    // }
+  }, [])
+
+  // if (location.state) {
+  //   console.log("YES");
+  // }
+
   const theme = useTheme();
   return (
     <Box sx={{
@@ -68,14 +97,43 @@ export default function CustomNavbar() {
           </Box>
 
           <Box>
-            <Button
-              style={{ color: theme.palette.secondary.contrastText }}
-              onClick={handleRegister}
-            >Register</Button>
-            <Button
-              style={{ color: theme.palette.secondary.contrastText }}
-              onClick={handleLogin}
-            >Login</Button>
+            {
+              isLoggedIn ?
+                <Box sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+
+                }}>
+                  <Button
+                    style={{ color: theme.palette.secondary.contrastText, fontSize: '18px', textAlign: "center" }}
+                  // onClick={handleLogout}
+                  >{location.state.fullName}</Button>
+
+                  <Button
+                    style={{ color: theme.palette.secondary.contrastText, fontSize: '18px', textAlign: "center" }}
+                    onClick={handleLogout}
+                  >Logout</Button>
+
+
+                </Box>
+
+                :
+
+                <Box>
+                  <Button
+                    style={{ color: theme.palette.secondary.contrastText }}
+                    onClick={handleRegister}
+                  >Register</Button>
+                  <Button
+                    style={{ color: theme.palette.secondary.contrastText }}
+                    onClick={handleLogin}
+                  >Login</Button>
+                </Box>
+
+            }
+
+
+
           </Box>
 
 

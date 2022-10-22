@@ -194,7 +194,7 @@
 
 
 
-import { Box, Button, ButtonGroup, Popover, Popper, Stack, Typography, useTheme } from '@mui/material'
+import { Box, Button, ButtonGroup, Popover, Popper, Stack, TextField, Typography, useTheme } from '@mui/material'
 import React, { useCallback, useState } from 'react'
 import CustomTextField from './CustomTextField';
 import './CustomSearch.css'
@@ -217,7 +217,7 @@ import 'react-date-range/dist/styles.css'; // main style file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 import DatePick from '../genreal/Homepage/DatePick';
 import MemberPick from '../genreal/Homepage/MemberPick';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 
 const CustomSearch = () => {
@@ -271,7 +271,7 @@ const CustomSearch = () => {
 
 
   const [destination, setDestination] = useState("");
-  const handleChange = (event) => {
+  const handleDestination = (event) => {
     setDestination(event.target.value);
   };
 
@@ -279,10 +279,25 @@ const CustomSearch = () => {
 
   console.log(destination);
   const navigate = useNavigate();
+  const location = useLocation();
+
   const handleSearch = () => {
     navigate("/search", { state: { date, options, destination } });
   };
 
+
+  console.log(location.state);
+  // useEffect(() => {
+  //   if (location.state != null) {
+  //     // console.log("NO");
+  //     setisLoggedIn(true);
+  //     setName(location.state.fullName);
+  //   }
+
+  //   // return () => {
+  //   //   second
+  //   // }
+  // }, [])
 
 
   return (
@@ -294,7 +309,7 @@ const CustomSearch = () => {
         justifyContent: 'space-around'
 
       }}>
-        <CustomTextField
+        {/* <CustomTextField
           placeholder="where to go"
           // onChange={handleChange}
           icon={<PlaceIcon
@@ -304,8 +319,34 @@ const CustomSearch = () => {
             }}
 
           />}
-          handleChange={handleChange}
-        />
+          onChange={handleChange}
+          value={destination}
+        /> */}
+
+        <TextField variant="standard" sx={{
+          maxWidth: '300px    ',
+          width: "100%", borderRadius: '0em',
+          marginBottom: '10px',
+          marginTop: '10px'
+
+          // backgroundColor: 
+        }} inputProps={{ style: { color: "black", backgroundColor: 'White', padding: '10px', borderRadius: '0px' } }}
+
+          // onChange={(e => setquery(e.target.value))}
+
+          placeholder="Enter Destination" value={destination} onChange={handleDestination} />
+
+
+
+
+
+
+
+
+
+
+
+
         <Box sx={{
           display: 'flex',
           flexDirection: "column",

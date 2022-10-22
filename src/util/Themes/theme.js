@@ -55,6 +55,17 @@ const theme = createTheme({
     //   fontSize: 16
     // }
   },
+  MuiFormLabel: {
+    root: {
+      "&$focused": {
+        color: "tomato",
+        fontWeight: "bold"
+      }
+    },
+
+    focused: {}
+  }
+
 
 });
 export default theme; 

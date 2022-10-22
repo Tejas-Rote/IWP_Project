@@ -25,6 +25,7 @@ import HomePageV1 from './componenets/genreal/Homepage/HomePageV1';
 import Search from "./componenets/genreal/Searchpage/Search";
 import Login from './componenets/genreal/AuthPage/Login';
 import Register from './componenets/genreal/AuthPage/Register';
+import Book from './componenets/genreal/Booking/Book';
 // import CustomSearch from './componenets/genreal/Homepage/CustomSearch';
 
 
@@ -110,6 +111,8 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/book" element={<Book />} />
+
 
         </Routes>
       </BrowserRouter>

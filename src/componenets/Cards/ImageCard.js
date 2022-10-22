@@ -43,17 +43,15 @@ const ImageCard = (props) => {
             component="img"
             height="250"
             src={props.img}
-            // img = {require('assets/img/bg2.jpg')
-            image="https://source.unsplash.com/random"
+            // img={require('assets/img/bg2.jpg')}
+            // image="https://source.unsplash.com/random"
             alt="green iguana"
           />
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               {props.title}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-
-
+            <Typography variant="body1" color="text.secondary">
               {props.body}
             </Typography>
           </CardContent>

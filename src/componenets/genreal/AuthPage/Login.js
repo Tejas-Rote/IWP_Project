@@ -1,9 +1,10 @@
-import { Box, Button, Stack, Typography, useMediaQuery, useTheme } from '@mui/material'
-import React from 'react'
+import { Alert, AlertTitle, Box, Button, Stack, TextField, Typography, useMediaQuery, useTheme } from '@mui/material'
+import React, { useState } from 'react'
 import GalleryCarousel from '../../Gallery/GalleryCarousel';
 import CustomTextField from '../../Searchbar/CustomTextField';
 import island from '../../../util/images/back2.jpg'
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios'
 const Register = () => {
 
 
@@ -13,8 +14,56 @@ const Register = () => {
     }
 
     const handleHome = () => {
-        navigate("/");
+        navigate("/", { state: { fullName: form.fullName, isLogedIn: success } });
+
     }
+
+    const [success, setsuccess] = useState(false);
+    const [fail, setfail] = useState(false);
+
+    const [form, setState] = useState({
+        fullName: '',
+        password: ''
+    });
+
+    const printValues = e => {
+        e.preventDefault();
+        console.log(form.fullName, form.password);
+        const registerd = {
+            fullName: form.fullName,
+            password: form.password
+        }
+        const result = axios.post('http://localhost:4000/app/login', registerd)
+            .then(response => {
+                console.log(response.data)
+                if (response.data.status === 'ok') {
+                    console.log("1");
+                    setsuccess(true);
+                    setfail(false);
+                    // navigate("/");
+
+
+                } else {
+                    setfail(true);
+                    setsuccess(false);
+                }
+            });
+
+        // if (result.status === 'ok') {
+        //     console.log('Got token', result.data);
+        // }
+
+    };
+
+
+    const updateField = e => {
+        setState({
+            ...form,
+            [e.target.name]: e.target.value
+        });
+    };
+
+
 
     const theme = useTheme();
     return (
@@ -29,6 +78,7 @@ const Register = () => {
             alignItems="center"
             justifyContent="center"
         >
+
             <Typography
                 sx={{
                     marginBottom: "1.5rem",
@@ -64,7 +114,10 @@ const Register = () => {
                     height: '80%',
                 }}
             >
+
                 <Box
+                    component="form"
+                    autoComplete='off'
                     sx={{
                         display: 'flex',
                         flexDirection: 'row',
@@ -84,10 +137,14 @@ const Register = () => {
                         },
                     }}
                 >
-                    {/* Hello */}
-                    <Stack spacing={2}>
 
-                        <Box>
+
+                    {/* Hello */}
+                    <Stack spacing={2} sx={{
+                        width: '400px'
+                    }}>
+
+                        {/* <Box>
                             <CustomTextField placeholder="Email * " />
 
 
@@ -96,7 +153,15 @@ const Register = () => {
                             <CustomTextField placeholder="password * " />
 
 
-                        </Box>
+                        </Box> */}
+
+                        <TextField fullWidth required variant="filled" placeholder="Name * " value={form.fullName} name="fullName" onChange={updateField} />
+
+
+
+                        <TextField required variant="filled" placeholder="password * " value={form.password} name="password" type="password" onChange={updateField} />
+
+
 
                         <Box sx={{
                             // bgcolor: 'red',
@@ -119,7 +184,9 @@ const Register = () => {
 
                                 }}
 
-                                onClick={handleHome}
+                                // onClick={handleHome}
+                                onClick={printValues}
+
                             // startIcon={<SearchIcon />}
                             // onClick={handleSearch}
 
@@ -127,8 +194,59 @@ const Register = () => {
                                 Login
                             </Button>
 
+
                         </Box>
 
+                        {success && (
+                            <Box sx={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}>
+                                <Alert severity="success" sx={{
+                                    marginTop: '20px',
+                                    marginBottom: '20px'
+
+                                }}>
+                                    <AlertTitle>Success</AlertTitle>
+                                    <strong> Login successful!</strong>
+                                </Alert>
+
+                                <Button
+                                    // size="small"
+                                    sx={{
+                                        height: '100%',
+                                        // maxWidth: '90px',
+                                        marginLeft: '10px',
+                                        color: theme.palette.secondary.contrastText,
+                                        backgroundColor: theme.palette.secondary.light,
+                                        "&:hover": {
+                                            backgroundColor: theme.palette.secondary.contrastText,
+                                            color: theme.palette.secondary.light,
+                                        },
+                                        transition: "0.3s",
+                                        padding: 2.2,
+
+                                    }}
+
+                                    onClick={handleHome}
+                                >
+                                    Home
+                                </Button>
+                            </Box>
+
+                        )}
+
+                        {fail && (
+                            <Alert severity="error" sx={{
+                                height: '80px',
+                                width: '400px'
+                            }}>
+                                <AlertTitle>Error</AlertTitle>
+                                <strong> Login failed!</strong>
+                            </Alert>
+                        )}
 
 
                     </Stack>
@@ -173,6 +291,7 @@ const Register = () => {
 
 
             </Stack>
+
         </Stack>
     )
 }
