@@ -15,7 +15,7 @@ Content-Type: application/json
 # {
 #     "startDate":"Tue Oct 04 2022 11:35:38 GMT+0530 (India Standard Time)",
 #     "endDate":"Tue Oct 04 2022 11:35:38 GMT+0530 (India Standard Time)",
-#     "destination": "Aukland",
+#     "destination": "Bali",
 #     "adults": "1",
 #     "children": "1",
 #     "room": "1"

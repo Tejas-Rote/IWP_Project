@@ -166,7 +166,7 @@ const CardSection = (props) => {
 
   const navigate = useNavigate();
   const handleBook = () => {
-    navigate("/");
+    navigate("/book");
   }
 
 

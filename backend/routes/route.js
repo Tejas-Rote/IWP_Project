@@ -1,14 +1,19 @@
 const express = require('express')
+const nodemailer = require("nodemailer")
+
+
 const router = express.Router();
 
 const registerTemplateCopy = require('../models/RegisterModels')
 const bookingTemplateCopy = require('../models/BookModels')
+const cardTemplateCopy = require('../models/CardModel')
+
 
 
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
-const JWT_SECRET = 'fajsdhfkjshdfkhasdfsdf*$*^$*^#@ijhsdjfsdfjhbsdf' 
+const JWT_SECRET = 'fajsdhfkjshdfkhasdfsdf*$*^$*^#@ijhsdjfsdfjhbsdf'
 
 
 
@@ -62,6 +67,73 @@ router.post('/register', async (request, respone) => {
             respone.json(error)
         })
 })
+
+
+router.post('/book', async (request, respone) => {
+    // response.send('sent');
+
+
+
+
+
+
+
+    const card = new cardTemplateCopy({
+        fullName: request.body.fullName,
+        email: request.body.email,
+        cardNumber: request.body.cardNumber,
+        cardName: request.body.cardName,
+        cvv: request.body.cvv,
+    })
+
+
+    const msg = {
+        from: "rote.tejas02@gmail.com",
+        to: card.email,
+        subject: "Booking confirmed",
+        text: "Booking is confirmed , See you there!!"
+    };
+
+
+    nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: "rote.tejas02@gmail.com",
+            pass: "uuuczsqaxzhtunuj"
+        },
+        port: 465,
+        host: 'smpt.gmail.com'
+    })
+        .sendMail(msg, (err) => {
+            if (err) {
+                return console.log("Error occured", err)
+            } else {
+                return console.log("Email.sent")
+            }
+        })
+
+
+
+
+    card.save()
+        .then(data => {
+            respone.json(data);
+        })
+        .catch(error => {
+            respone.json(error)
+        })
+
+
+    // const msg = {
+    //     from: "rote.tejas02@gmail.com",
+    //     to: email,
+    //     subject: "Booking confirmed",
+    //     text: "Booking is confirmed , See you there!!"
+    // };
+
+})
+
+
 
 
 router.post('/search', async (request, respone) => {

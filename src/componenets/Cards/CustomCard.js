@@ -49,7 +49,7 @@ const CustomCard = (props) => {
   const handleBook = () => {
     // console.log(location.state.date[0].startDate, location.state.date[0].endDate, location.state.options.adult, location.state.options.children, location.state.options.room, props.title);
 
-    // navigate("/book");
+    navigate("/book", { state: { details } });
 
 
     setdetails({

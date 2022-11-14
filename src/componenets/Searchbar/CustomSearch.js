@@ -360,7 +360,7 @@ const CustomSearch = () => {
 
           <Box sx={{
             display: "flex",
-            height: '56px',
+            height: '42px',
             backgroundColor: theme.palette.common.white,
             paddingLeft: 2,
             paddingRight: 2,
@@ -442,7 +442,7 @@ const CustomSearch = () => {
         <Box className="details" sx={{
           display: "flex",
           // width: "400px",
-          height: '56px',
+          height: '42px',
           backgroundColor: theme.palette.common.white,
           paddingLeft: 2,
           paddingRight: 2,

@@ -102,7 +102,7 @@ const Search = () => {
     const [destination, setDestination] = useState("");
 
     const location = useLocation();
-    console.log(location.state);
+    // console.log(location.state);
 
 
     useEffect(() => {
